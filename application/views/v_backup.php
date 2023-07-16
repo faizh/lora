@@ -33,17 +33,20 @@
                     <div class="card-body">
                         <h4 class="fw-bold mb-3">Pengaturan Backup</h4>
                         <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
-                                checked>
+                            <input onchange="setBackup(1)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
+                                <?= ($interval == 1) ? 'checked' : '' ?>>
                             <label class="btn btn-outline-primary" for="set1">1 Menit</label>
 
-                            <input type="radio" class="btn-check" name="setting" id="set2" autocomplete="off">
+                            <input onchange="setBackup(15)" type="radio" class="btn-check" name="setting" id="set2" autocomplete="off"
+                                <?= ($interval == 15) ? 'checked' : '' ?>>
                             <label class="btn btn-outline-primary" for="set2">15 Menit</label>
 
-                            <input type="radio" class="btn-check" name="setting" id="set3" autocomplete="off">
+                            <input onchange="setBackup(30)" type="radio" class="btn-check" name="setting" id="set3" autocomplete="off"
+                                <?= ($interval == 30) ? 'checked' : '' ?>>
                             <label class="btn btn-outline-primary" for="set3">30 Menit</label>
 
-                            <input type="radio" class="btn-check" name="setting" id="set4" autocomplete="off">
+                            <input onchange="setBackup(60)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
+                                <?= ($interval == 60) ? 'checked' : '' ?>>
                             <label class="btn btn-outline-primary" for="set4">1 Jam</label>
                         </div>
                         <table class="table">
@@ -149,5 +152,34 @@
         var polyline = L.polyline(latlongs, {color: 'blue'}).bindPopup('Jarak dari Lora 1 dan Lora 2 :  ' + distance + ' KM').addTo(map);
 
     });
+
+    function setBackup(interval) {
+        disableRadioBtn();
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url("index.php/backup/updateBackupInterval")?>',
+            data:{interval: interval},
+            dataType: 'json',
+            success: function(data) {
+                enableRadioBtn();
+
+            },
+        });
+    }
+
+    function disableRadioBtn() {
+        document.getElementById("set1").disabled = true;
+        document.getElementById("set2").disabled = true;
+        document.getElementById("set3").disabled = true;
+        document.getElementById("set4").disabled = true;
+    }
+
+    function enableRadioBtn() {
+        document.getElementById("set1").disabled = false;
+        document.getElementById("set2").disabled = false;
+        document.getElementById("set3").disabled = false;
+        document.getElementById("set4").disabled = false;
+    }
     
 </script>
