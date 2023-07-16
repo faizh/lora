@@ -28,10 +28,11 @@ class Backup extends CI_Controller {
      }
 	public function index()
 	{
-        $interval = $this->M_backup->getBackupInterval();
+        $interval       = $this->M_backup->getBackupInterval();
+        $backup_files   = $this->M_backup->getAllBackupFiles();
 
         $this->load->view('includes/header');
-		$this->load->view('v_backup', compact('interval'));
+		$this->load->view('v_backup', compact('interval', 'backup_files'));
         $this->load->view('includes/footer');
 	}
 
@@ -59,5 +60,34 @@ class Backup extends CI_Controller {
         echo json_encode(array(
             'interval'  => $interval
         ));
+    }
+
+    function postBackupFile() {
+        $file_base64 = $this->input->post('file');
+        $file_decoded = base64_decode($file_base64);
+
+        $path       = "backup";
+        $filename   = "backup_" . time() . ".txt";
+        $full_path  = "./" . $path . "/" . $filename;
+
+        file_put_contents($full_path, $file_decoded);
+
+        $file_data  = array(
+            'filename'  => $filename,
+            'path'      => $path . "/" . $filename
+        );
+
+        $status = $this->M_backup->insertFile($file_data);
+
+        echo json_encode(array(
+            'status'    => $status,
+            'path'      => $path . "/" . $filename
+        ));
+    }
+
+    function download($file_id){
+        $file = $this->M_backup->getFile($file_id);
+        
+        force_download('./' . $file->path, NULL);
     }
 }

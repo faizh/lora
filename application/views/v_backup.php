@@ -58,35 +58,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>file 1.txt</td>
-                                    <td>
-                                        <a href="backup/file1.txt" class="btn"><i class="bi bi-cloud-download"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>file 2.txt</td>
-
-                                    <td>
-                                        <a href="backup/file2.txt" class="btn"><i class="bi bi-cloud-download"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>file 3.txt</td>
-                                    <td>
-                                        <a href="backup/file3.txt" class="btn"><i class="bi bi-cloud-download"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>file 4.txt</td>
-                                    <td>
-                                        <a href="backup/file4.txt" class="btn"><i class="bi bi-cloud-download"></i></a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($backup_files as $key => $file) { ?>
+                                    <tr>
+                                        <th scope="row"><?= $key + 1 ?></th>
+                                        <td><?= $file->filename ?></td>
+                                        <td>
+                                            <a href="<?= base_url() . 'index.php/backup/download/' . $file->id ?>" class="btn" target="__BLANK"><i class="bi bi-cloud-download"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
