@@ -90,9 +90,6 @@
         var latlong_lora1 = [-6.9838859759810825, 110.41548622681835];
         var latlong_lora2 = [-6.9822774315480345, 110.43224338308413];
 
-        var lora1 = L.marker(latlong_lora1).addTo(map).bindPopup('Lora 1');
-        var lora1 = L.marker(latlong_lora2).addTo(map).bindPopup('Lora 2');
-
         /** adding compass */
         L.Control.Watermark = L.Control.extend({
             onAdd: function(map) {
@@ -130,6 +127,17 @@
         ];
 
         var polyline = L.polyline(latlongs, {color: 'blue'}).bindPopup('Jarak dari Lora 1 dan Lora 2 :  ' + distance + ' KM').addTo(map);
+
+        var content_lora1 = '<b><h5>Lora 1</h5></b>' + 
+                            '(' + latlong_lora1[0] + ',' + latlong_lora1[1] + ') <br />' +
+                            'Jarak dari Lora 1 dan Lora 2 :  <b>' + distance + ' KM</b>';
+
+        var content_lora2 = '<b><h5>Lora 2</h5></b>' + 
+                            '(' + latlong_lora2[0] + ',' + latlong_lora2[1] + ') <br />' +
+                            'Jarak dari Lora 2 dan Lora 1 :  <b>' + distance + ' KM</b>';
+
+        var lora1 = L.marker(latlong_lora1).addTo(map).bindPopup(content_lora1);
+        var lora1 = L.marker(latlong_lora2).addTo(map).bindPopup(content_lora2);
 
     });
 
