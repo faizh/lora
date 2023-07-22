@@ -55,6 +55,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">File</th>
                                     <th scope="col">Aksi</th>
+                                    <th scope="col">Clear</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,6 +65,9 @@
                                         <td><?= $file->filename ?></td>
                                         <td>
                                             <a href="<?= base_url() . 'index.php/backup/download/' . $file->id ?>" class="btn" target="__BLANK"><i class="bi bi-cloud-download"></i></a>
+                                        </td>
+                                        <td>
+                                            <a href="<?= base_url() . 'index.php/backup/delete/' . $file->id ?>" class="btn" target="__BLANK"><i class="bi bi-trash"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

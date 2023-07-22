@@ -90,4 +90,10 @@ class Backup extends CI_Controller {
         
         force_download('./' . $file->path, NULL);
     }
+
+    function delete($file_id) {
+        $this->M_backup->deleteFile($file_id);
+
+        redirect('/backup');
+    }
 }

@@ -22,7 +22,6 @@ class M_backup extends CI_Model {
         }else{
             return true;
         }
-        
     }
 
     function getAllBackupFiles() {
@@ -35,4 +34,9 @@ class M_backup extends CI_Model {
         $this->db->where('id', $file_id);
         return $this->db->get("t_backup_files")->row();
     }
+
+    public function deleteFile($file_id)
+	{
+		return $this->db->delete("t_backup_files", array("id" => $file_id));
+	}
 }
