@@ -21,7 +21,6 @@
 <section id="hero" class="hero d-flex align-items-center">
 
     <div class="container">
-        <h1 class="text-center mb-4" data-aos="zoom-out">Backup Data</h1>
         <div class="row">
             <div class="col-lg-6 mb-3" data-aos="fade-up" data-aos-delay="200">
                 <div class="card overflow-hidden" style="height: 60vh;">
@@ -31,7 +30,6 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="card overflow-scroll" style="height: 60vh;">
                     <div class="card-body">
-                        <h4 class="fw-bold mb-3">Pengaturan Backup</h4>
                         <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
                             <input onchange="setBackup(1)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
                                 <?= ($interval == 1) ? 'checked' : '' ?>>

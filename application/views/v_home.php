@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-lg-6 hero-img" data-aos="zoom-out">
-                <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+                <img src="assets/img/connectico-header.png" class="img-fluid" alt="">
             </div>
         </div>
     </div>
