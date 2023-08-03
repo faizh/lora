@@ -1,19 +1,15 @@
 <header id="header" class="header fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-
-        <div class="d-flex flex-column">
-            <a href="<?= base_url() ?>" class="logo">
-                <span>Monitoring Backup Data</span>
-            </a>
-            <div class="mt-3 d-flex align-items-center">
-                <span class="badge bg-success rounded-circle text-success me-2">\</span>
-                Online
+            <img src="<?= base_url() ?>assets/img/lora.png" style="width: 100px" />
+            <div class="col">
+                <a href="<?= base_url() ?>" class="logo">
+                    <span>Monitoring Backup Data</span>
+                </a>
+                <div class="mt-3 d-flex align-items-center">
+                    <span class="badge bg-success rounded-circle text-success me-2">\</span>
+                    Online
+                </div>
             </div>
-        </div>
-
-        <div style="width: 130px;">
-            <img src="assets/img/lora.png" class="img-fluid" alt="">
-        </div>
     </div>
 </header>
 
@@ -31,21 +27,21 @@
                 <div class="card overflow-scroll" style="height: 60vh;">
                     <div class="card-body">
                         <div class="text-center" role="group" aria-label="Basic radio toggle button group">
-                            <input onchange="setBackup(1)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
-                                <?= ($interval == 1) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set1">1 Menit</label>
+                            <input onchange="setBackup(5)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
+                                <?= ($interval == 5) ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="set1">5 Menit</label>
 
-                            <input onchange="setBackup(15)" type="radio" class="btn-check" name="setting" id="set2" autocomplete="off"
-                                <?= ($interval == 15) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set2">15 Menit</label>
+                            <input onchange="setBackup(300)" type="radio" class="btn-check" name="setting" id="set2" autocomplete="off"
+                                <?= ($interval == 300) ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="set2">5 Jam</label>
 
-                            <input onchange="setBackup(30)" type="radio" class="btn-check" name="setting" id="set3" autocomplete="off"
-                                <?= ($interval == 30) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set3">30 Menit</label>
+                            <input onchange="setBackup(600)" type="radio" class="btn-check" name="setting" id="set3" autocomplete="off"
+                                <?= ($interval == 600) ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="set3">10 Jam</label>
 
-                            <input onchange="setBackup(60)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
-                                <?= ($interval == 60) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set4">1 Jam</label>
+                            <input onchange="setBackup(720)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
+                                <?= ($interval == 720) ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="set4">12 Jam</label>
                         </div>
                         <table class="table">
                             <thead>
