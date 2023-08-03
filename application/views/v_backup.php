@@ -39,9 +39,9 @@
                                 <?= ($interval == 600) ? 'checked' : '' ?>>
                             <label class="btn btn-outline-primary" for="set3">10 Jam</label>
 
-                            <input onchange="setBackup(720)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
-                                <?= ($interval == 720) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set4">12 Jam</label>
+                            <input onchange="setBackup(1440)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
+                                <?= ($interval == 1440) ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="set4">24 Jam</label>
                         </div>
                         <table class="table">
                             <thead>
@@ -68,7 +68,7 @@
                                         </td>
                                         <td>
                                             
-                                            <a href="<?= base_url() . 'index.php/' . $file->path ?>" class="btn"button class="button button1">View</button></i></a>
+                                            <a href="<?= base_url() . $file->path ?>" target="_BLANK" class="btn"button class="button button1">View</button></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>
