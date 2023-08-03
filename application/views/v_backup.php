@@ -30,7 +30,7 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="card overflow-scroll" style="height: 60vh;">
                     <div class="card-body">
-                        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+                        <div class="text-center" role="group" aria-label="Basic radio toggle button group">
                             <input onchange="setBackup(1)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
                                 <?= ($interval == 1) ? 'checked' : '' ?>>
                             <label class="btn btn-outline-primary" for="set1">1 Menit</label>
@@ -52,8 +52,10 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">File</th>
+                                    <th scope="col">Time</th>
                                     <th scope="col">Aksi</th>
                                     <th scope="col">Clear</th>
+                                    <th scope="col">View</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,11 +63,16 @@
                                     <tr>
                                         <th scope="row"><?= $key + 1 ?></th>
                                         <td><?= $file->filename ?></td>
+                                        <td><?= $file->created_dtm ?></td>
                                         <td>
                                             <a href="<?= base_url() . 'index.php/backup/download/' . $file->id ?>" class="btn" target="__BLANK"><i class="bi bi-cloud-download"></i></a>
                                         </td>
                                         <td>
                                             <a href="<?= base_url() . 'index.php/backup/delete/' . $file->id ?>" class="btn" target="__BLANK"><i class="bi bi-trash"></i></a>
+                                        </td>
+                                        <td>
+                                            
+                                            <a href="<?= base_url() . 'index.php/' . $file->path ?>" class="btn"button class="button button1">View</button></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

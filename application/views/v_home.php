@@ -10,7 +10,7 @@
                     Penanganan Komunikasi Bencana</h2>
                 <div data-aos="fade-up">
                     <div class="text-center text-lg-start">
-                        <a href="<?= base_url() ?>index.php/backup"
+                        <a href="<?= base_url() ?>index.php/auth/login"
                             class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                             <span>Get Started</span>
                             <i class="bi bi-arrow-right"></i>
