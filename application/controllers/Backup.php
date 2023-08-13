@@ -23,7 +23,8 @@ class Backup extends CI_Controller {
         parent::__construct();
 
         $this->load->model(array(
-            'M_backup'
+            'M_backup',
+            'M_alat'
         ));
      }
 	public function index()
@@ -31,8 +32,11 @@ class Backup extends CI_Controller {
         $interval       = $this->M_backup->getBackupInterval();
         $backup_files   = $this->M_backup->getAllBackupFiles();
 
+        $lora_1         = $this->M_alat->getAlat($this->M_alat->lora_1());
+        $lora_2         = $this->M_alat->getAlat($this->M_alat->lora_2());
+
         $this->load->view('includes/header');
-		$this->load->view('v_backup', compact('interval', 'backup_files'));
+		$this->load->view('v_backup', compact('interval', 'backup_files', 'lora_1', 'lora_2'));
         $this->load->view('includes/footer');
 	}
 
@@ -95,6 +99,82 @@ class Backup extends CI_Controller {
         $this->M_backup->deleteFile($file_id);
 
         redirect('/backup');
+    }
+
+    function loraLocation() {
+        $input = (object) $this->input->post();
+
+        if (empty($input->alat_id)){
+            $response = array(
+                'status'    => false,
+                'msg'       => 'parameter alat_id is null'
+            );
+
+            echo json_encode($response);
+            exit;
+        }
+
+        if (empty($input->latitude)){
+            $response = array(
+                'status'    => false,
+                'msg'       => 'parameter latitude is null'
+            );
+
+            echo json_encode($response);
+            exit;
+        }
+
+        if (empty($input->longitude)){
+            $response = array(
+                'status'    => false,
+                'msg'       => 'parameter longitude is null'
+            );
+
+            echo json_encode($response);
+            exit;
+        }
+
+        $alat_id    = $input->alat_id;
+        $longitude  = $input->longitude;
+        $latitude   = $input->latitude;
+        
+        $alat = $this->M_alat->getAlat($alat_id);
+        
+        if (empty($alat)) {
+            $response = array(
+                'status'    => false,
+                'msg'       => 'alat_id value is invalid'
+            );
+
+            echo json_encode($response);
+            exit;
+        }
+
+        $data = array(
+            'latitude'      => $latitude,
+            'longitude'     => $longitude
+        );
+
+        $condition = array(
+            'id'    => $alat_id
+        );
+
+        $update = $this->M_alat->update($data, $condition);
+
+        if ($update) {
+            $response = array(
+                'status'    => true,
+                'msg'       => 'update success'
+            );
+        } else {
+            $response = array(
+                'status'    => false,
+                'msg'       => 'update failed'
+            );
+        }
+        
+        echo json_encode($response);
+        
     }
 
 }
