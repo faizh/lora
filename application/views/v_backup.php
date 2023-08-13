@@ -92,8 +92,8 @@
         }).addTo(map);
 
         /** adding lora marker */
-        var latlong_lora1 = [-6.9838859759810825, 110.41548622681835];
-        var latlong_lora2 = [-6.9822774315480345, 110.43224338308413];
+        var latlong_lora1 = [<?= $lora_1->latitude ?>, <?= $lora_1->longitude ?>];
+        var latlong_lora2 = [<?= $lora_2->latitude ?>, <?= $lora_2->longitude ?>];
 
         /** adding compass */
         L.Control.Watermark = L.Control.extend({
