@@ -26,6 +26,14 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="card overflow-scroll" style="height: 60vh;">
                     <div class="card-body">
+                        <div class="row text-center m-2">
+                            <div class="col-md-3">
+                                Tanggal
+                            </div>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
                         <div class="text-center" role="group" aria-label="Basic radio toggle button group">
                             <input onchange="setBackup(5)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
                                 <?= ($interval == 5) ? 'checked' : '' ?>>
