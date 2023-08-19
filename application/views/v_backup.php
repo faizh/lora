@@ -26,31 +26,39 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="card overflow-scroll" style="height: 60vh;">
                     <div class="card-body">
-                        <div class="row text-center m-2">
-                            <div class="col-md-3">
-                                Tanggal
+                        <form action="<?= base_url() ?>index.php/backup" method="post">
+                            <div class="row text-center m-2">
+                                <div class="col-md-3">
+                                    Tanggal
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="date" name="filter_date" class="form-control" value="<?= !empty($filter_date) ? $filter_date : '' ?>">
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <input type="date" class="form-control">
+                            <div class="text-center" role="group" aria-label="Basic radio toggle button group">
+                                <input onchange="setBackup(5)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
+                                    <?= ($interval == 5) ? 'checked' : '' ?>>
+                                <label class="btn btn-outline-primary" for="set1">5 Menit</label>
+
+                                <input onchange="setBackup(300)" type="radio" class="btn-check" name="setting" id="set2" autocomplete="off"
+                                    <?= ($interval == 300) ? 'checked' : '' ?>>
+                                <label class="btn btn-outline-primary" for="set2">5 Jam</label>
+
+                                <input onchange="setBackup(600)" type="radio" class="btn-check" name="setting" id="set3" autocomplete="off"
+                                    <?= ($interval == 600) ? 'checked' : '' ?>>
+                                <label class="btn btn-outline-primary" for="set3">10 Jam</label>
+
+                                <input onchange="setBackup(1440)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
+                                    <?= ($interval == 1440) ? 'checked' : '' ?>>
+                                <label class="btn btn-outline-primary" for="set4">24 Jam</label>
                             </div>
-                        </div>
-                        <div class="text-center" role="group" aria-label="Basic radio toggle button group">
-                            <input onchange="setBackup(5)" type="radio" class="btn-check" name="setting" id="set1" autocomplete="off"
-                                <?= ($interval == 5) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set1">5 Menit</label>
 
-                            <input onchange="setBackup(300)" type="radio" class="btn-check" name="setting" id="set2" autocomplete="off"
-                                <?= ($interval == 300) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set2">5 Jam</label>
+                            <div class="text-center mt-2">
+                                <input type="hidden" name="interval" id="interval">
+                                <input type="submit" value="Search" class="btn btn-success text-center">
+                            </div>
+                        </form>
 
-                            <input onchange="setBackup(600)" type="radio" class="btn-check" name="setting" id="set3" autocomplete="off"
-                                <?= ($interval == 600) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set3">10 Jam</label>
-
-                            <input onchange="setBackup(1440)" type="radio" class="btn-check" name="setting" id="set4" autocomplete="off"
-                                <?= ($interval == 1440) ? 'checked' : '' ?>>
-                            <label class="btn btn-outline-primary" for="set4">24 Jam</label>
-                        </div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -63,7 +71,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($backup_files as $key => $file) { ?>
+                                <!-- <?php foreach ($backup_files as $key => $file) { ?>
                                     <tr>
                                         <th scope="row"><?= $key + 1 ?></th>
                                         <td><?= $file->filename ?></td>
@@ -79,6 +87,28 @@
                                             <a href="<?= base_url() . $file->path ?>" target="_BLANK" class="btn"button class="button button1">View</button></i></a>
                                         </td>
                                     </tr>
+                                <?php } ?> -->
+                                <?php if (count($avail_times) > 0) {
+                                    foreach ($avail_times as $key => $times) { ?>
+                                        <tr>
+                                            <td><?= $key + 1 ?></td>
+                                            <td>backup_<?= $filter_date . "_" . $times->end ?>.txt</td>
+                                            <td><?= $filter_date . " " . $times->end ?></td>
+                                            <td>
+                                                <a href="<?= base_url() . 'index.php/backup/generate_backup/' . $times->encode ?>" class="btn" target="__BLANK"><i class="bi bi-cloud-download"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="<?= base_url() . 'index.php/backup/delete_messages/' . $times->encode ?>" class="btn" target="__BLANK"><i class="bi bi-trash"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="<?= base_url() . 'index.php/backup/generate_backup/' . $times->encode . '/view' ?>" target="_BLANK" class="btn"button class="button button1">View</button></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php }
+                                } else { ?>
+                                <tr>
+                                    <td colspan="6" class="text-center">Data kosong. Harap pilih filter diatas</td>
+                                </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
@@ -155,6 +185,7 @@
     });
 
     function setBackup(interval) {
+        document.getElementById("interval").value = interval;
         disableRadioBtn();
 
         $.ajax({

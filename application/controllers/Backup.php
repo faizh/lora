@@ -30,14 +30,22 @@ class Backup extends CI_Controller {
      }
 	public function index()
 	{
-        $interval       = $this->M_backup->getBackupInterval();
+        // $interval       = $this->M_backup->getBackupInterval();
         $backup_files   = $this->M_backup->getAllBackupFiles();
 
         $lora_1         = $this->M_alat->getAlat($this->M_alat->lora_1());
         $lora_2         = $this->M_alat->getAlat($this->M_alat->lora_2());
 
+        /** configure to generate backup files */
+        $filter_date        = $this->input->post('filter_date');
+        $interval    = $this->input->post('interval');
+        $avail_times        = array();
+        if ($filter_date !== NULL AND $interval !== NULL) {
+            $avail_times = $this->get_available_backup_times($filter_date, $interval);
+        }
+
         $this->load->view('includes/header');
-		$this->load->view('v_backup', compact('interval', 'backup_files', 'lora_1', 'lora_2'));
+		$this->load->view('v_backup', compact('interval', 'backup_files', 'lora_1', 'lora_2', 'avail_times', 'filter_date'));
         $this->load->view('includes/footer');
 	}
 
@@ -222,10 +230,7 @@ class Backup extends CI_Controller {
         exit;
     }
 
-    function get_available_backup_times() {
-        $date       = date('Y-m-d');
-        $interval_setup   = 5; /** in minutes */
-
+    function get_available_backup_times($date, $interval_setup) {
         switch ($interval_setup) {
             case 5:
                 $interval = new DateInterval('PT5M'); // set the interval to 1 minute
@@ -265,9 +270,11 @@ class Backup extends CI_Controller {
             
             $messages   = $this->M_backup_messages->getBackupMessages($date, $prev_time, $time);
             if (count($messages) > 0) {
-                $avail_times[] = array(
-                    'start' => $prev_time,
-                    'end'   => $time
+                $avail_times[] = (object) array(
+                    'date'      => $date,
+                    'start'     => $prev_time,
+                    'end'       => $time,
+                    'encode'    => base64_encode($date . "#" . $prev_time . "#" . $time)
                 );
             }
         }
@@ -277,13 +284,51 @@ class Backup extends CI_Controller {
         $time = '23:59:59';
         $messages   = $this->M_backup_messages->getBackupMessages($date, $prev_time, $time);
         if (count($messages) > 0) {
-            $avail_times[] = array(
-                'start' => $prev_time,
-                'end'   => $time
+            $avail_times[] = (object) array(
+                'date'      => $date,
+                'start'     => $prev_time,
+                'end'       => $time,
+                'encode'    => base64_encode($date . "#" . $prev_time . "#" . $time)
             );
         }
 
         return $avail_times;
+    }
+
+    function generate_backup($times_encoded, $action="") {
+        $times  = explode("#", base64_decode($times_encoded));
+        $date   = $times[0];
+        $start  = $times[1];
+        $end    = $times[2];
+
+        $messages   = $this->M_backup_messages->getBackupMessages($date, $start, $end);
+        $file       = "backup_" . $date . "_" . $end . ".txt";
+        $data       = "";
+        foreach ($messages as $key => $msg) {
+            $data   .= $msg->created_dtm . " - " . $msg->name . " :" . "\n";
+            $data   .= $msg->message . "\n";
+        }
+
+        if ($action != 'view') {
+            header('Content-Disposition: attachment; filename="' . $file .'"');
+            header('Content-Type: text/plain'); # Don't use application/force-download - it's not a real MIME type, and the Content-Disposition header is sufficient
+            header('Content-Length: ' . strlen($data));
+            header('Connection: close');
+        } else {
+            $data = str_replace("\n", "<br />", $data);
+        }
+        echo $data;
+    }
+
+    function delete_messages($times_encoded) {
+        $times  = explode("#", base64_decode($times_encoded));
+        $date   = $times[0];
+        $start  = $times[1];
+        $end    = $times[2];
+
+        $messages   = $this->M_backup_messages->deleteBackupMessages($date, $start, $end);
+
+        redirect('/backup');
     }
 
 }
