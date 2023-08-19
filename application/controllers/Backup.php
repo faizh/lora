@@ -172,7 +172,7 @@ class Backup extends CI_Controller {
         if ( !$this->isValidLongitude($longitude) ) {
             $response = array(
                 'status'    => false,
-                'msg'       => 'invalid longitude value! longitde: ' . $longitude
+                'msg'       => 'invalid longitude value! longitude: ' . $longitude
             );
 
             echo json_encode($response);
