@@ -159,6 +159,26 @@ class Backup extends CI_Controller {
             exit;
         }
 
+        if ( !$this->isValidLatitude($latitude) ) {
+            $response = array(
+                'status'    => false,
+                'msg'       => 'invalid latitude value! latitude: ' . $latitude
+            );
+
+            echo json_encode($response);
+            exit;
+        }
+
+        if ( !$this->isValidLongitude($longitude) ) {
+            $response = array(
+                'status'    => false,
+                'msg'       => 'invalid longitude value! longitde: ' . $longitude
+            );
+
+            echo json_encode($response);
+            exit;
+        }
+
         $data = array(
             'latitude'      => $latitude,
             'longitude'     => $longitude
@@ -329,6 +349,14 @@ class Backup extends CI_Controller {
         $messages   = $this->M_backup_messages->deleteBackupMessages($date, $start, $end);
 
         redirect('/backup');
+    }
+
+    function isValidLatitude($latitude) {
+        return is_numeric($latitude) && $latitude >= -90 && $latitude <= 90;
+    }
+    
+    function isValidLongitude($longitude) {
+        return is_numeric($longitude) && $longitude >= -180 && $longitude <= 180;
     }
 
 }
